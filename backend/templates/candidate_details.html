@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Details — ResumeIQ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --paper: #FAFAF9;
+            --card: #FFFFFF;
+            --ink: #14171F;
+            --muted: #676B76;
+            --line: #E4E4E7;
+            --primary: #2F3A8F;
+            --primary-dark: #232C6E;
+            --accent: #0EA894;
+            --accent-soft: #E3F6F2;
+            --warn: #B45309;
+            --warn-soft: #FBEEDC;
+            --low: #C2410C;
+            --low-soft: #FBE7DE;
+            --ink-panel: #14171F;
+            --radius: 14px;
+        }
+
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+
+        body {
+            background: var(--paper);
+            background-image:
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 42px 42px;
+            background-position: -1px -1px;
+            color: var(--ink);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px 20px 80px;
+        }
+
+        .topnav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 26px;
+            background: rgba(250, 250, 249, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+            flex-wrap: wrap;
+        }
+
+        .topnav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 15.5px;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .topnav-brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .topnav-links {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex-wrap: wrap;
+        }
+
+        .topnav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 13.5px;
+            color: var(--muted);
+            padding: 7px 13px;
+            border-radius: 7px;
+            transition: color 0.15s ease, background 0.15s ease;
+        }
+
+        .topnav-link:hover {
+            color: var(--ink);
+            background: rgba(20, 23, 31, 0.05);
+        }
+
+        .topnav-link.active {
+            color: var(--primary);
+            background: var(--accent-soft);
+            font-weight: 600;
+        }
+
+        .topnav-cta {
+            background: var(--primary);
+            color: #fff !important;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .topnav-cta:hover { background: var(--primary-dark); }
+
+        @media (max-width: 560px) {
+            .topnav { padding: 12px 16px; justify-content: center; }
+            .topnav-brand { display: none; }
+            .topnav-links { justify-content: center; width: 100%; }
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 13.5px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: color 0.15s ease;
+        }
+
+        .back:hover { color: var(--ink); }
+        .back svg { width: 14px; height: 14px; }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(28px, 4.5vw, 36px);
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            margin: 0 0 24px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 2px rgba(20, 23, 31, 0.04), 0 12px 32px -20px rgba(20, 23, 31, 0.25);
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .score-band {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            padding: 24px 26px;
+            border-bottom: 1px solid var(--line);
+            background: var(--accent-soft);
+        }
+
+        .score-band.mid { background: var(--warn-soft); }
+        .score-band.low { background: var(--low-soft); }
+
+        .ring {
+            flex-shrink: 0;
+            position: relative;
+            width: 84px;
+            height: 84px;
+        }
+
+        .ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .ring-track { fill: none; stroke: rgba(20,23,31,0.08); stroke-width: 8; }
+        .ring-value {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .score-band.mid .ring-value { stroke: var(--warn); }
+        .score-band.low .ring-value { stroke: var(--low); }
+
+        .ring-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .score-text-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .cand-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 19px;
+        }
+
+        .details {
+            padding: 6px 26px 22px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .row:last-child { border-bottom: none; }
+
+        .row-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding-top: 2px;
+            flex-shrink: 0;
+            width: 84px;
+        }
+
+        .row-value {
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .row-value.mono {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+        }
+
+        .row-value.skills { color: var(--primary-dark); }
+
+        /* Resume text panel */
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px;
+        }
+
+        .panel-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .panel-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .panel-dots span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--line);
+        }
+
+        pre {
+            margin: 0;
+            padding: 22px;
+            background: var(--ink-panel);
+            color: #E3E5EA;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12.5px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 420px;
+            overflow-y: auto;
+        }
+
+        pre::-webkit-scrollbar { width: 8px; }
+        pre::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.15);
+            border-radius: 4px;
+        }
+
+        .foot {
+            margin-top: 8px;
+        }
+
+        .foot a {
+            color: var(--muted);
+            font-size: 13.5px;
+            text-decoration: none;
+        }
+        .foot a:hover { color: var(--ink); }
+
+        @media (max-width: 480px) {
+            .score-band { flex-direction: column; align-items: flex-start; }
+            .row { flex-direction: column; gap: 4px; }
+            .row-value { text-align: left; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ring-value { transition: none !important; }
+        }
+
+        .site-footer {
+            border-top: 1px solid var(--line);
+            padding: 18px 26px;
+        }
+
+        .footer-inner {
+            max-width: 620px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 12.5px;
+            color: var(--muted);
+        }
+
+        .footer-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.7;
+        }
+
+        .footer-stack {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="topnav">
+        <a href="/" class="topnav-brand"><span class="topnav-brand-dot"></span>ResumeIQ</a>
+        <div class="topnav-links">
+            <a href="/" class="topnav-link">Upload</a>
+            <a href="/jobs" class="topnav-link">Jobs</a>
+            <a href="/candidates" class="topnav-link active">Candidates</a>
+            <a href="/jobs/new" class="topnav-link topnav-cta">+ Create Job</a>
+        </div>
+    </nav>
+
+    <div class="content">
+    <div class="wrap">
+
+        <a href="/candidates" class="back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Back to dashboard
+        </a>
+
+        <div class="eyebrow">Candidate record</div>
+        <h1>Candidate details</h1>
+
+        {% set score = candidate.match_score|float %}
+        <div class="card">
+            <div class="score-band {% if score < 40 %}low{% elif score < 70 %}mid{% endif %}">
+                <div class="ring">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="ring-track" cx="50" cy="50" r="42"></circle>
+                        <circle class="ring-value" id="ringValue" cx="50" cy="50" r="42"
+                            stroke-dasharray="263.9"
+                            stroke-dashoffset="263.9"
+                            data-offset="{{ 263.9 - (263.9 * (candidate.match_score|float / 100)) }}">
+                        </circle>
+                    </svg>
+                    <div class="ring-label">{{ "%.0f"|format(candidate.match_score|float) }}%</div>
+                </div>
+                <div>
+                    <div class="score-text-label">Match score</div>
+                    <div class="cand-name">{{ candidate.name }}</div>
+                </div>
+            </div>
+
+            <div class="details">
+                <div class="row">
+                    <div class="row-label">Email</div>
+                    <div class="row-value mono">{{ candidate.email }}</div>
+                </div>
+                <div class="row">
+                    <div class="row-label">Phone</div>
+                    <div class="row-value mono">{{ candidate.phone }}</div>
+                </div>
+                <div class="row">
+                    <div class="row-label">Skills</div>
+                    <div class="row-value skills">{{ candidate.skills }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="panel-head">
+                <div class="panel-title">Extracted résumé text</div>
+                <div class="panel-dots"><span></span><span></span><span></span></div>
+            </div>
+            <pre>{{ candidate.resume_text }}</pre>
+        </div>
+
+    </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand"><span class="footer-dot"></span>ResumeIQ</div>
+            <div class="footer-stack">ResumeIQ • Flask • SQLite • AI-powered matching</div>
+        </div>
+    </footer>
+
+    <script>
+        const ring = document.getElementById('ringValue');
+        requestAnimationFrame(() => {
+            ring.style.strokeDashoffset = ring.dataset.offset;
+        });
+    </script>
+
+</body>
+
+</html>
